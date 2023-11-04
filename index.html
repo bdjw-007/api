@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>大客户IT支持 - 开放平台测试工具</title>
+	
+		<style>
+			h3 {
+				color: blue;
+				text-align: center;
+				background-color:;
+				font-size:18px;
+				margin:2%;
+			}
+			h4 {
+				color: red;
+				text-align: center;
+				background-color:;
+				font-size:18px;
+				margin:2%;
+			}
+			
+
+		</style>
+	</head>
+  <body onload="getToken()">
+
+  <form>
+          <h3></br>关注公众号：顺丰客户IT服务</h3>
+
+			<h4>
+				<input type="text" id="token" hidden="true">
+				接 口：
+					<select id="api">
+					<option value="EXP_RECE_DELIVERY_NOTICE">派送通知接口（退回）</option>
+					<option value="COM_RECE_BBC_CARGOS_CATEGORY">托寄物分类接口</option>
+
+					<option value="EXP_RECE_CREATE_ORDER">下订单接口</option>
+					<option value="EXP_RECE_PRE_ORDER">预下单接口</option>
+					<option value="EXP_RECE_SEARCH_ROUTES">路由查询接口</option>
+					<option value="COM_RECE_CLOUD_PRINT_WAYBILLS">云打印接口</option>
+				
+					</select></br> 	
+				
+					<div class="left">请求报文：</br><textarea rows="5" cols="50" wrap="soft" style=height:100px;width:500px id="request" >{
+    "waybillNo":"SF7444400067318",
+    "dataType":"72",
+    "language":"zh-cn"
+}</textarea></div>
+
+
+					<div class="right">响应报文：</br><textarea rows="5" cols="50" wrap="soft" style=height:150px;width:500px id="response"></textarea></div>
+
+选择示例报文</br>				
+<select style=height:20px;width:100px	 onchange="document.getElementById('request').value=this.options[this.selectedIndex].text; ">
+
+<option></option>
+
+<optgroup label="派送通知接口">	 
+<option >{
+    "waybillNo":"SF7444400067318",
+    "dataType":"71",
+    "language":"zh-cn"
+}</option>
+</optgroup>
+
+<optgroup label="托寄物分类接口">	 
+<option >{
+    "cons_name": [
+        "洋河大曲"
+    ],
+    "category_number": 3
+}
+</option>
+</optgroup>
+
+<optgroup label="下单接口">	 
+<option >{
+  "cargoDetails": [
+    {
+      "weight": 5,
+      "name": "文件",
+ }
+  ],
+  "contactInfoList": [
+    {
+      "address": "安徽省合肥市蜀山区振兴路1号",
+      "company": "张氏集团",
+      "contact": "张三",
+      "contactType": 1,
+      "country": "CN",
+      "mobile": "13900000001"
+    },
+    {
+      "address": "安徽省合肥市蜀山区振兴路2号",
+      "company": "李氏集团",
+      "contact": "李四",
+      "contactType": 2,
+      "country": "CN",
+      "mobile": "13900000002"
+    }
+  ],
+  "language": "zh_CN",
+  "payMethod": "1",
+  "isReturnQRCode": "1",
+  "totalWeight": "0.5",
+  "remark": "小哥辛苦了，这是订单备注信息",
+  "parcelQty": 1,
+  "expressTypeId": "2",
+  "orderId": "202310191026005900111"
+}
+</option>
+</optgroup>
+
+<optgroup label="预下单接口">	 
+<option >{
+	"orderId": "${orderId}",
+	"contactInfoList": [{
+			"city": "市",
+			"district": "区",
+			"province": "省",
+			"address": "安徽省合肥市蜀山区振兴路666号",
+			"contactType": "2",
+			"tel": "13900000001"
+		},
+		{
+			"city": "市",
+			"district": "区",
+			"province": "省",
+			"address": "四川省成都市彭州市通济镇景山路54号",
+			"contactType": "1",
+			"tel": "13900000002"
+		}
+	],
+	"expressTypeId": "247",
+	"totalWeight": "3",
+	"cargoName": "生鲜",
+	"monthlyCard": "7551234567"
+}</option>
+</optgroup>
+
+<optgroup label="路由查询接口">	 
+<option >{
+	"language": "0",
+	"trackingType": "1",
+	"trackingNumber": ["SF1384077361163"],
+	"methodType": "1",
+	"checkPhoneNo": "6039"
+}
+</option>
+</optgroup>
+
+<optgroup label="云打印同步接口">	 
+<option >{ "templateCode": "fm_76130_standard_XFL8",
+  "version":"2.0",
+  "sync":"true",
+  "extJson":[{"encryptFlag":"1111"}],
+  "fileType":"pdf",
+  "documents": [{
+  "masterWaybillNo":"SF1640727784029",
+  "waybillNoCheckValue":"000001",
+  "waybillNoCheckType":"2",
+  "remark":"请勿修改产品类型，小哥辛苦了~"}]
+}
+</option>
+</optgroup>
+
+</select>
+</h4>
+
+					
+</form>
+ <h4>
+    <button id="test" onclick="test()">运行指令接口</button></br></br>
+
+<img src="https://mmbiz.qpic.cn/sz_mmbiz_png/RrmJ3nFt8PX0ZS7Fa3pkwBHLGQoLibX7u0cokqUiaYQoNSIibSANan1lEXSFdEV8dPV2UhiaYIJvljDuWWoiciaNu6ug/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" width= "500px" height= "165px"
+  alt="公众号：顺丰客户IT服务">
+
+ </h4>
+  
+<script>
+	// 初始化获取Token
+    // setInterval('getToken()', 19 * 60 * 1000)
+ </script>
+ <script>
+	var currentToken;
+	
+	//获取token 
+     function getToken(){
+		 var myHeaders = new Headers();
+		
+		          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+		          var urlencoded = new URLSearchParams();
+		          urlencoded.append("partnerID", "XFL8");
+		          urlencoded.append("secret", "uSs6CeZA0LYMHBAF7EESlPVcngYkPW8A");
+		          urlencoded.append("grantType", "password");
+		
+		          var requestOptions = {
+		              method: 'POST',
+		              headers: myHeaders,
+		              body: urlencoded,
+		              redirect: 'follow'
+		          };
+				            fetch("https://sfapi.sf-express.com/oauth2/accessToken", requestOptions)
+				                .then(response => response.text())
+				                .then(result => {
+				                    let resultObject = JSON.parse(result);
+				                    console.log(resultObject);
+				                    currentToken = resultObject.accessToken
+				                    console.log(currentToken);
+				                });
+				        
+				  console.log(urlencoded.toString());
+	 }
+	
+	// 请求开放接口
+    function test() {
+		var  token=document.getElementById("token").value;
+		
+		var api =document.getElementById("api");
+		var apiValue= api.options[api.selectedIndex].value;
+
+		var  request=document.getElementById("request").value;
+		
+		var  response=document.getElementById("response");
+	
+		var apiHeaders = new Headers();
+		          apiHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+				  var timestamp = Date.parse(new Date())
+		          var urlencoded = new URLSearchParams();
+		          urlencoded.append("partnerID", "XFL8");
+		          urlencoded.append("requestID", timestamp);
+		          urlencoded.append("serviceCode", apiValue);
+		          urlencoded.append("timestamp", timestamp);
+		          urlencoded.append("accessToken", currentToken);
+		          urlencoded.append("msgData", request);
+				  
+				  var requestOptions = {
+		              method: 'POST',
+		              headers: myHeaders,
+		              body: urlencoded,
+		              redirect: 'follow'
+		          };
+				  
+				  var myHeaders = new Headers();
+		          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+				  
+				  fetch("https://bspgw.sf-express.com/std/service", requestOptions)
+				                .then(response => response.text())
+				                .then(result => {
+				                    let resultObject = JSON.parse(result);
+				                    console.log(resultObject);
+									response.value = resultObject.apiResultData.toString();
+				                });
+				  console.log(urlencoded.toString());
+    }
+  </script>
+</html>
